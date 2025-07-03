@@ -54,7 +54,11 @@
       .logo {
         font-size: 1.8rem;
         font-weight: 700;
-        background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -93,7 +97,11 @@
       }
 
       .hero {
-        background: linear-gradient(135deg, rgba(108, 92, 231, 0.9), rgba(162, 155, 254, 0.9)),
+        background: linear-gradient(
+            135deg,
+            rgba(108, 92, 231, 0.9),
+            rgba(162, 155, 254, 0.9)
+          ),
           url("https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1600&q=80")
             no-repeat center center/cover;
         color: white;
@@ -287,7 +295,7 @@
       }
 
       footer {
-        background: var(--dark);
+        background:#8b8b8b;
         color: white;
         text-align: center;
         padding: 2rem 5%;
@@ -317,6 +325,58 @@
           grid-template-columns: 1fr;
         }
       }
+      .hot-deals-slider {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: white;
+        padding: 1rem 0;
+      }
+
+      .slide-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+      }
+
+      .slide-track a {
+        flex: 0 0 100%;
+      }
+
+      .slide-track img {
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+        display: flex;
+        object-position: top center;
+        border-radius: 8px;
+      }
+
+      .slider-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        z-index: 2;
+        border-radius: 50%;
+      }
+
+      .slider-btn.left {
+        left: 10px;
+      }
+
+      .slider-btn.right {
+        right: 10px;
+      }
+
+      .slider-btn:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
     </style>
   </head>
   <body>
@@ -325,13 +385,17 @@
       <nav>
         <a href="/compare"><i class="fas fa-search-dollar"></i> Compare</a>
         <a href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a>
-        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="/wishlist"><i class="fas fa-leaf"></i> Sustainability Check</a>
+         <a href="/wishlist"><i class="fas fa-robot"></i> chatbot</a>
+        <a href="/logout"><i class="fas fa-sign-in-alt"></i> Login</a>
       </nav>
     </header>
 
     <section class="hero">
       <h1>Shop Smarter, Not Harder</h1>
-      <p>Track prices across retailers to ensure you always get the best deal</p>
+      <p>
+        Track prices across retailers to ensure you always get the best deal
+      </p>
       <div class="search-container">
         <input
           type="text"
@@ -345,17 +409,117 @@
           <i class="fas fa-search"></i>
         </button>
       </div>
-    </section>
-
-    <div style="text-align: center; margin-top: 2rem">
+      <div style="text-align: center; margin-top: 2rem">
       <label for="sortOrder" style="font-weight: 600">Sort by Price:</label>
-      <select id="sortOrder" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 1rem; margin-left: 0.5rem;">
+      <select
+        id="sortOrder"
+        style="
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          font-size: 1rem;
+          margin-left: 0.5rem;
+        "
+      >
         <option value="">-- Select --</option>
         <option value="low-to-high">Low to High</option>
         <option value="high-to-low">High to Low</option>
       </select>
     </div>
+    </section>
+    <div>
+    <h2
+      style="
+        font-size: 24px;
+        font-weight: bold;
+        margin-top:10px;
+        margin-bottom: 10px;
+        color: #d32f2f;
+        text-align: center;
+      "
+    >
+      🔥 Hot Deals
+    </h2>
+    </div>
 
+    <div class="hot-deals-slider">
+      <button class="slider-btn left" onclick="moveSlide(-1)">&#10094;</button>
+      <div class="slide-track" id="slideTrack">
+        <a
+          href="https://www.flipkart.com/big-bachat-day-feb-25-store"
+          target="_blank"
+        >
+          <img
+            src="https://rukminim1.flixcart.com/fk-p-flap/1000/200/image/fb28e3e1d22e6da2.jpg?q=90"
+          />
+        </a>
+        <a
+          href="https://www.flipkart.com/furniture/beds-more/beds/pr?sid=wwe,7p7,4yf"
+          target="_blank"
+        >
+          <img
+            src="https://rukminim1.flixcart.com/fk-p-flap/1000/200/image/74f0ad81e44e6e6f.jpg?q=90"
+          />
+        </a>
+        <a
+          href="https://www.flipkart.com/travel/flights?param=TravelDT-HPW-HPW-Flyfk"
+          target="_blank"
+        >
+          <img
+            src="https://rukminim1.flixcart.com/fk-p-flap/1000/200/image/2ad9256d47bff7ca.jpg?q=90"
+          />
+        </a>
+        <a
+          href="https://www.flipkart.com/travel/flights?param=TravelDT-HPW-Roundtrip-booknow"
+          target="_blank"
+        >
+          <img
+            src="https://rukminim1.flixcart.com/fk-p-flap/1000/200/image/8ff8ffb16eac0db3.jpg?q=90"
+          />
+        </a>
+        <a href="https://www.amazon.in/l/96585507031/" target="_blank">
+          <img
+            src="https://images-eu.ssl-images-amazon.com/images/G/31/img22/CEPC/pd/69/PC_Hero_Asin_3000x1200---Prime-Blue._CB789864568_.jpg"
+            alt="Amazon Banner 1"
+           
+          />
+        </a>
+        <a
+          href="https://www.amazon.in/s/?i=apparel&bbn=1968120031"
+          target="_blank"
+        >
+          <img
+            src="https://images-eu.ssl-images-amazon.com/images/G/31/img2020/2025/PrimeDay/SSH/Leadup/Unrec/PC/Tshirts_PC-1._CB789976979_.jpg"
+            alt="Amazon Banner 2"
+            
+          />
+        </a>
+        <a href="https://www.amazon.in/l/207909168031/" target="_blank">
+          <img
+            src="https://images-eu.ssl-images-amazon.com/images/G/31/OHL/PD25/Payal/GW-Hero-Pc-01_GOLD._CB790067108_.jpg"
+            alt="Amazon Banner 3"
+           
+          />
+        </a>
+        <a
+          href="https://www.amazon.in/s/?i=shoes&rh=n%3A1983518031"
+          target="_blank"
+        >
+          <img
+            src="https://images-eu.ssl-images-amazon.com/images/G/31/img2020/2025/PrimeDay/SSH/Leadup/Unrec/PC/Sports_shoes_PC-1._CB789976979_.jpg"
+            alt="Amazon Banner 4"
+           
+          />
+        </a>
+        <a href="https://www.amazon.in/dp/B0CY5HVDS2/" target="_blank">
+          <img
+            src="https://images-eu.ssl-images-amazon.com/images/G/31/img24/Media/PD25/PC_Lead-Up_Asin_3000x1200-PS5._CB790067172_.jpg"
+            alt="Amazon Banner 5"
+            
+          />
+        </a>
+      </div>
+      <button class="slider-btn right" onclick="moveSlide(1)">&#10095;</button>
+    </div>
     <div class="cards-container" id="resultsContainer">
       <!-- Dynamic product cards will appear here -->
     </div>
@@ -363,6 +527,17 @@
     <footer>© 2025 Price Wise • Smart Shopping Engine</footer>
 
     <script>
+      let slideIndex = 0;
+      const slides = document.querySelectorAll(".slide-track a");
+
+      function moveSlide(direction) {
+        slideIndex = (slideIndex + direction + slides.length) % slides.length;
+        const track = document.getElementById("slideTrack");
+        track.style.transform = `translateX(-${slideIndex * 100}%)`;
+      }
+
+      // Auto scroll every 3 seconds
+      setInterval(() => moveSlide(1), 3000);
       function performSearch() {
         const query = document.getElementById("searchInput").value.trim();
         const sortOrder = document.getElementById("sortOrder").value;
@@ -396,14 +571,18 @@
                   <h3 class="card-title" title="${p.title}">${p.title}</h3>
                   <div class="rating">
                     ${"★".repeat(Math.round(p.rating || 4))}
-                    <span class="gray">${"★".repeat(5 - Math.round(p.rating || 4))}</span>
+                    <span class="gray">${"★".repeat(
+                      5 - Math.round(p.rating || 4)
+                    )}</span>
                     <span class="rating-value">(${p.rating || "4.0"})</span>
                   </div>
                   <div class="price-container">
                     <span class="current-price">₹${p.price}</span>
                   </div>
                   <div class="stores">
-                    <button class="store-btn" onclick="window.open('${p.link}', '_blank')">
+                    <button class="store-btn" onclick="window.open('${
+                      p.link
+                    }', '_blank')">
                       <span>${p.platform}</span>
                       <span class="store-price">₹${p.price}</span>
                     </button>
@@ -414,22 +593,29 @@
           })
           .catch((err) => {
             console.error("Fetch error:", err);
-            document.getElementById("resultsContainer").innerHTML = "<p>Error fetching results.</p>";
+            document.getElementById("resultsContainer").innerHTML =
+              "<p>Error fetching results.</p>";
           });
       }
 
-      document.getElementById("searchInput").addEventListener("keypress", function (e) {
-        if (e.key === "Enter") performSearch();
-      });
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") performSearch();
+        });
 
-      document.getElementById("searchBtn").addEventListener("click", performSearch);
-      document.getElementById("sortOrder").addEventListener("change", performSearch);
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", performSearch);
+      document
+        .getElementById("sortOrder")
+        .addEventListener("change", performSearch);
 
       // 🎤 Voice Recognition Logic
       const voiceBtn = document.getElementById("voiceBtn");
       const productInput = document.getElementById("searchInput");
 
-      if ('webkitSpeechRecognition' in window) {
+      if ("webkitSpeechRecognition" in window) {
         const recognition = new webkitSpeechRecognition();
         recognition.lang = "en-IN";
         recognition.continuous = false;
