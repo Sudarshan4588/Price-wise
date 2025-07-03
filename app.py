@@ -6,7 +6,7 @@ from datetime import datetime
 # 🔧 CONFIGURATION
 # ----------------------------------------
 
-SERPAPI_KEY = ""
+SERPAPI_KEY = "21b82874dc0f25fc3b6fb116bbf48ba4889d995ff3e916968e294d8a3459c8a7"
 
 # ----------------------------------------
 # ⚙️ APP SETUP

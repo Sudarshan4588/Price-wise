@@ -54,11 +54,7 @@
       .logo {
         font-size: 1.8rem;
         font-weight: 700;
-        background: linear-gradient(
-          135deg,
-          var(--primary),
-          var(--primary-light)
-        );
+        background: linear-gradient(135deg, var(--primary), var(--primary-light));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -97,11 +93,7 @@
       }
 
       .hero {
-        background: linear-gradient(
-            135deg,
-            rgba(108, 92, 231, 0.9),
-            rgba(162, 155, 254, 0.9)
-          ),
+        background: linear-gradient(135deg, rgba(108, 92, 231, 0.9), rgba(162, 155, 254, 0.9)),
           url("https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1600&q=80")
             no-repeat center center/cover;
         color: white;
@@ -127,21 +119,43 @@
         max-width: 700px;
         margin: 0 auto;
         position: relative;
+        display: flex;
       }
 
       .search-container input {
-        width: 100%;
+        flex: 1;
         padding: 1.25rem 2rem;
         border: none;
-        border-radius: 50px;
+        border-radius: 50px 0 0 50px;
         font-size: 1.1rem;
         box-shadow: var(--shadow-lg);
         transition: var(--transition);
       }
 
-      .search-container input:focus {
-        outline: none;
-        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      .search-btn {
+        padding: 1.25rem 1.5rem;
+        border: none;
+        background: var(--primary);
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: var(--shadow-lg);
+      }
+
+      #voiceBtn {
+        background: var(--primary-light);
+        color: white;
+        border: none;
+        padding: 1.25rem 1.5rem;
+        font-size: 1.1rem;
+        transition: var(--transition);
+        cursor: pointer;
+      }
+
+      .search-btn:hover,
+      #voiceBtn:hover {
+        background: var(--primary);
       }
 
       .cards-container {
@@ -279,38 +293,6 @@
         padding: 2rem 5%;
         margin-top: 3rem;
       }
-      .search-container {
-        max-width: 700px;
-        margin: 0 auto;
-        position: relative;
-        display: flex;
-      }
-
-      .search-container input {
-        flex: 1;
-        padding: 1.25rem 2rem;
-        border: none;
-        border-radius: 50px 0 0 50px;
-        font-size: 1.1rem;
-        box-shadow: var(--shadow-lg);
-        transition: var(--transition);
-      }
-
-      .search-btn {
-        padding: 1.25rem 2rem;
-        border: none;
-        background: var(--primary);
-        color: white;
-        font-size: 1.1rem;
-        border-radius: 0 50px 50px 0;
-        cursor: pointer;
-        transition: var(--transition);
-        box-shadow: var(--shadow-lg);
-      }
-
-      .search-btn:hover {
-        background: var(--primary-light);
-      }
 
       @media (max-width: 768px) {
         header {
@@ -349,31 +331,25 @@
 
     <section class="hero">
       <h1>Shop Smarter, Not Harder</h1>
-      <p>
-        Track prices across retailers to ensure you always get the best deal
-      </p>
+      <p>Track prices across retailers to ensure you always get the best deal</p>
       <div class="search-container">
         <input
           type="text"
           id="searchInput"
           placeholder="Search for a product like 'iPhone 15'"
         />
+        <button id="voiceBtn" title="Click to Speak">
+          <i class="fas fa-microphone"></i>
+        </button>
         <button id="searchBtn" class="search-btn">
           <i class="fas fa-search"></i>
         </button>
       </div>
     </section>
+
     <div style="text-align: center; margin-top: 2rem">
       <label for="sortOrder" style="font-weight: 600">Sort by Price:</label>
-      <select
-        id="sortOrder"
-        style="
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          font-size: 1rem;
-          margin-left: 0.5rem;
-        "
-      >
+      <select id="sortOrder" style="padding: 0.5rem 1rem; border-radius: 8px; font-size: 1rem; margin-left: 0.5rem;">
         <option value="">-- Select --</option>
         <option value="low-to-high">Low to High</option>
         <option value="high-to-low">High to Low</option>
@@ -385,6 +361,7 @@
     </div>
 
     <footer>© 2025 Price Wise • Smart Shopping Engine</footer>
+
     <script>
       function performSearch() {
         const query = document.getElementById("searchInput").value.trim();
@@ -403,67 +380,84 @@
               return;
             }
 
-            // 🔃 Sort based on selected option
             if (sortOrder === "low-to-high") {
               data.products.sort((a, b) => a.price - b.price);
             } else if (sortOrder === "high-to-low") {
               data.products.sort((a, b) => b.price - a.price);
             }
 
-            // Render cards
             data.products.forEach((p) => {
-              if (!p.title || p.title.trim() === ""|| p.price>200000) return;
+              if (!p.title || p.title.trim() === "" || p.price > 200000) return;
               const card = document.createElement("div");
               card.className = "card";
               card.innerHTML = `
-            <img src="${p.image}" alt="${p.title}" class="product-image" />
-            <div class="card-content">
-              <h3 class="card-title" title="${p.title}">${p.title}</h3>
-              <div class="rating">
-                ${"★".repeat(Math.round(p.rating || 4))}
-                <span class="gray">${"★".repeat(
-                  5 - Math.round(p.rating || 4)
-                )}</span>
-                <span class="rating-value">(${p.rating || "4.0"})</span>
-              </div>
-              <div class="price-container">
-                <span class="current-price">₹${p.price}</span>
-              </div>
-              <div class="stores">
-                <button class="store-btn" onclick="window.open('${
-                  p.link
-                }', '_blank')">
-                  <span>${p.platform}</span>
-                  <span class="store-price">₹${p.price}</span>
-                </button>
-              </div>
-            </div>
-          `;
+                <img src="${p.image}" alt="${p.title}" class="product-image" />
+                <div class="card-content">
+                  <h3 class="card-title" title="${p.title}">${p.title}</h3>
+                  <div class="rating">
+                    ${"★".repeat(Math.round(p.rating || 4))}
+                    <span class="gray">${"★".repeat(5 - Math.round(p.rating || 4))}</span>
+                    <span class="rating-value">(${p.rating || "4.0"})</span>
+                  </div>
+                  <div class="price-container">
+                    <span class="current-price">₹${p.price}</span>
+                  </div>
+                  <div class="stores">
+                    <button class="store-btn" onclick="window.open('${p.link}', '_blank')">
+                      <span>${p.platform}</span>
+                      <span class="store-price">₹${p.price}</span>
+                    </button>
+                  </div>
+                </div>`;
               container.appendChild(card);
             });
           })
           .catch((err) => {
             console.error("Fetch error:", err);
-            document.getElementById("resultsContainer").innerHTML =
-              "<p>Error fetching results.</p>";
+            document.getElementById("resultsContainer").innerHTML = "<p>Error fetching results.</p>";
           });
       }
 
-      // Event listeners
-      document
-        .getElementById("searchInput")
-        .addEventListener("keypress", function (e) {
-          if (e.key === "Enter") performSearch();
+      document.getElementById("searchInput").addEventListener("keypress", function (e) {
+        if (e.key === "Enter") performSearch();
+      });
+
+      document.getElementById("searchBtn").addEventListener("click", performSearch);
+      document.getElementById("sortOrder").addEventListener("change", performSearch);
+
+      // 🎤 Voice Recognition Logic
+      const voiceBtn = document.getElementById("voiceBtn");
+      const productInput = document.getElementById("searchInput");
+
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "en-IN";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        voiceBtn.addEventListener("click", () => {
+          voiceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+          recognition.start();
         });
 
-      document
-        .getElementById("searchBtn")
-        .addEventListener("click", performSearch);
+        recognition.onresult = function (event) {
+          const transcript = event.results[0][0].transcript;
+          productInput.value = transcript;
+          document.getElementById("searchBtn").click();
+        };
 
-      // Re-trigger search when sort option changes
-      document
-        .getElementById("sortOrder")
-        .addEventListener("change", performSearch);
+        recognition.onend = function () {
+          voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Voice recognition error:", event.error);
+          voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
+      } else {
+        voiceBtn.disabled = true;
+        voiceBtn.title = "Voice search not supported in this browser";
+      }
     </script>
   </body>
 </html>
