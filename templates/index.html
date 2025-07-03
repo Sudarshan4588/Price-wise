@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PriceWise | AI-Powered Price Comparison</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #6c5ce7;
+        --primary-light: #a29bfe;
+        --dark: #2d3436;
+        --light: #f8f9fa;
+        --success: #00b894;
+        --danger: #d63031;
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease-in-out;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--light);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      header {
+        background: white;
+        padding: 1.5rem 5%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      nav {
+        display: flex;
+        gap: 2rem;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--dark);
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+        padding: 0.5rem 0;
+      }
+
+      nav a:hover {
+        color: var(--primary);
+      }
+
+      nav a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: var(--transition);
+      }
+
+      nav a:hover::after {
+        width: 100%;
+      }
+
+      .hero {
+        background: linear-gradient(
+            135deg,
+            rgba(108, 92, 231, 0.9),
+            rgba(162, 155, 254, 0.9)
+          ),
+          url("https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&w=1600&q=80")
+            no-repeat center center/cover;
+        color: white;
+        padding: 5rem 5%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        max-width: 700px;
+        margin: 0 auto 3rem;
+        opacity: 0.9;
+      }
+
+      .search-container {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .search-container input {
+        width: 100%;
+        padding: 1.25rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+      }
+
+      .search-container input:focus {
+        outline: none;
+        box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+      }
+
+      .cards-container {
+        padding: 4rem 5%;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        transition: var(--transition);
+        position: relative;
+        border: 1px solid #eee;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        background: #f8f9fa;
+        padding: 2rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .card-content {
+        padding: 1.5rem;
+      }
+
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        height: 3.3rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 0.5rem;
+      }
+
+      .rating {
+        font-size: 1rem;
+        color: #f1c40f;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .rating .gray {
+        color: #dcdde1;
+      }
+
+      .rating-value {
+        font-size: 0.9rem;
+        color: #555;
+        margin-left: 0.25rem;
+      }
+
+      .price-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .current-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .stores {
+        margin-top: 1rem;
+      }
+
+      .store-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: #f8f9fa;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition);
+        width: 100%;
+      }
+
+      .store-btn:hover {
+        background: #e9ecef;
+      }
+
+      .store-price {
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .wishlist-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .wishlist-btn:hover {
+        color: var(--danger);
+        transform: scale(1.1);
+      }
+
+      footer {
+        background: var(--dark);
+        color: white;
+        text-align: center;
+        padding: 2rem 5%;
+        margin-top: 3rem;
+      }
+      .search-container {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        display: flex;
+      }
+
+      .search-container input {
+        flex: 1;
+        padding: 1.25rem 2rem;
+        border: none;
+        border-radius: 50px 0 0 50px;
+        font-size: 1.1rem;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition);
+      }
+
+      .search-btn {
+        padding: 1.25rem 2rem;
+        border: none;
+        background: var(--primary);
+        color: white;
+        font-size: 1.1rem;
+        border-radius: 0 50px 50px 0;
+        cursor: pointer;
+        transition: var(--transition);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .search-btn:hover {
+        background: var(--primary-light);
+      }
+
+      @media (max-width: 768px) {
+        header {
+          flex-direction: column;
+          gap: 1rem;
+          padding: 1rem 5%;
+        }
+
+        nav {
+          gap: 1rem;
+        }
+
+        .hero h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .cards-container {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">PriceWise</div>
+      <nav>
+        <a href="/compare"><i class="fas fa-search-dollar"></i> Compare</a>
+        <a href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>Shop Smarter, Not Harder</h1>
+      <p>
+        Track prices across retailers to ensure you always get the best deal
+      </p>
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search for a product like 'iPhone 15'"
+        />
+        <button id="searchBtn" class="search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </section>
+    <div style="text-align: center; margin-top: 2rem">
+      <label for="sortOrder" style="font-weight: 600">Sort by Price:</label>
+      <select
+        id="sortOrder"
+        style="
+          padding: 0.5rem 1rem;
+          border-radius: 8px;
+          font-size: 1rem;
+          margin-left: 0.5rem;
+        "
+      >
+        <option value="">-- Select --</option>
+        <option value="low-to-high">Low to High</option>
+        <option value="high-to-low">High to Low</option>
+      </select>
+    </div>
+
+    <div class="cards-container" id="resultsContainer">
+      <!-- Dynamic product cards will appear here -->
+    </div>
+
+    <footer>© 2025 Price Wise • Smart Shopping Engine</footer>
+    <script>
+      function performSearch() {
+        const query = document.getElementById("searchInput").value.trim();
+        const sortOrder = document.getElementById("sortOrder").value;
+
+        if (!query) return;
+
+        fetch(`/search?q=${encodeURIComponent(query)}`)
+          .then((res) => res.json())
+          .then((data) => {
+            const container = document.getElementById("resultsContainer");
+            container.innerHTML = "";
+
+            if (!data.products || data.products.length === 0) {
+              container.innerHTML = "<p>No products found.</p>";
+              return;
+            }
+
+            // 🔃 Sort based on selected option
+            if (sortOrder === "low-to-high") {
+              data.products.sort((a, b) => a.price - b.price);
+            } else if (sortOrder === "high-to-low") {
+              data.products.sort((a, b) => b.price - a.price);
+            }
+
+            // Render cards
+            data.products.forEach((p) => {
+              if (!p.title || p.title.trim() === ""|| p.price>200000) return;
+              const card = document.createElement("div");
+              card.className = "card";
+              card.innerHTML = `
+            <img src="${p.image}" alt="${p.title}" class="product-image" />
+            <div class="card-content">
+              <h3 class="card-title" title="${p.title}">${p.title}</h3>
+              <div class="rating">
+                ${"★".repeat(Math.round(p.rating || 4))}
+                <span class="gray">${"★".repeat(
+                  5 - Math.round(p.rating || 4)
+                )}</span>
+                <span class="rating-value">(${p.rating || "4.0"})</span>
+              </div>
+              <div class="price-container">
+                <span class="current-price">₹${p.price}</span>
+              </div>
+              <div class="stores">
+                <button class="store-btn" onclick="window.open('${
+                  p.link
+                }', '_blank')">
+                  <span>${p.platform}</span>
+                  <span class="store-price">₹${p.price}</span>
+                </button>
+              </div>
+            </div>
+          `;
+              container.appendChild(card);
+            });
+          })
+          .catch((err) => {
+            console.error("Fetch error:", err);
+            document.getElementById("resultsContainer").innerHTML =
+              "<p>Error fetching results.</p>";
+          });
+      }
+
+      // Event listeners
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") performSearch();
+        });
+
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", performSearch);
+
+      // Re-trigger search when sort option changes
+      document
+        .getElementById("sortOrder")
+        .addEventListener("change", performSearch);
+    </script>
+  </body>
+</html>
